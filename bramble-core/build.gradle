@@ -4,8 +4,8 @@ targetCompatibility = 1.8
 
 apply plugin: 'ru.vyarus.animalsniffer'
 apply plugin: 'idea'
-apply plugin: 'witness'
-apply from: 'witness.gradle'
+//apply plugin: 'witness'
+//apply from: 'witness.gradle'
 apply from: '../dagger.gradle'
 
 dependencies {

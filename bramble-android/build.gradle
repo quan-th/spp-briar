@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
-apply plugin: 'witness'
-apply from: 'witness.gradle'
+//apply plugin: 'witness'
+//apply from: 'witness.gradle'
 
 android {
 	compileSdkVersion 34
@@ -13,8 +13,6 @@ android {
 	defaultConfig {
 		minSdkVersion 21
 		targetSdkVersion 33
-		versionCode 10514
-		versionName "1.5.14"
 		consumerProguardFiles 'proguard-rules.txt'
 
 		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -50,8 +48,9 @@ dependencies {
 
 	implementation project(':bramble-core')
 
-	implementation 'androidx.annotation:annotation:1.5.0'
+	implementation 'androidx.annotation:annotation:1.6.0'
 	implementation "org.briarproject:onionwrapper-android:$onionwrapper_version"
+	implementation 'androidx.appcompat:appcompat:1.6.1'
 
 	tor "org.briarproject:tor-android:$tor_version"
 	tor "org.briarproject:lyrebird-android:$lyrebird_version"

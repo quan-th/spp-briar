@@ -48,8 +48,12 @@ public class AuthorNameFragment extends SetupFragment {
 		nextButton = v.findViewById(R.id.next);
 
 		authorNameInput.addTextChangedListener(this);
-		infoButton.setOnClickListener(view ->
-				showOnboardingDialog(requireContext(), getHelpText()));
+		infoButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				showOnboardingDialog(requireContext(), getHelpText());
+			}
+		});
 		nextButton.setOnClickListener(this);
 
 		return v;

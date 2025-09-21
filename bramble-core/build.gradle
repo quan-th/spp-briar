@@ -50,11 +50,11 @@ animalsniffer {
 
 // needed to make test output available to bramble-java
 configurations {
-	testOutput.extendsFrom(testCompile)
+	testOutput.extendsFrom(testImplementation)
 }
 task jarTest(type: Jar, dependsOn: testClasses) {
 	from sourceSets.test.output, sourceSets.main.output
-	classifier = 'test'
+	archiveClassifier = 'test'
 }
 artifacts {
 	testOutput jarTest

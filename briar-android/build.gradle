@@ -21,10 +21,16 @@ android {
 
 	packagingOptions {
 		doNotStrip '**/*.so'
+		exclude 'META-INF/DEPENDENCIES'
+		exclude 'META-INF/LICENSE'
+		exclude 'META-INF/LICENSE.txt'
+		exclude 'META-INF/NOTICE'
+		exclude 'META-INF/NOTICE.txt'
+		pickFirst 'README.txt'
 	}
 
 	defaultConfig {
-		minSdkVersion 21
+		minSdkVersion 26
 		targetSdkVersion 34
 		versionCode 10514
 		versionName "1.5.14"
@@ -45,7 +51,7 @@ android {
 		debug {
 			applicationIdSuffix ".debug"
 			shrinkResources false
-			minifyEnabled true
+			minifyEnabled false
 			crunchPngs false
 			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
 			testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt', 'proguard-test.txt'
@@ -94,6 +100,12 @@ android {
 		warning 'ExtraTranslation'
 		// FIXME
 		warning 'InvalidPackage'
+	}
+}
+
+configurations {
+	all {
+		exclude group: 'net.jcip', module: 'jcip-annotations'
 	}
 }
 

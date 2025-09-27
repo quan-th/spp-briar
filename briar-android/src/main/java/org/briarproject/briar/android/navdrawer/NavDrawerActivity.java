@@ -133,8 +133,18 @@ public class NavDrawerActivity extends BriarActivity implements
 	@Override
 	public void onCreate(@Nullable Bundle state) {
 		super.onCreate(state);
+		
+		// FLOW STEP 3: NavDrawerActivity.onCreate() - Main app activity
+		// This is the ENTRY_ACTIVITY launched from SplashScreenActivity
+		// Main activity that contains navigation drawer and fragments
+		
+		// Check if startup failed and exit if needed
 		exitIfStartupFailed(getIntent());
+		
+		// FLOW STEP 4: Initialize main UI layout
 		setContentView(R.layout.activity_nav_drawer);
+		// After setContentView(), activity lifecycle continues:
+		// onCreate() → onStart() → onResume() → Authentication check
 
 		BriarApplication app = (BriarApplication) getApplication();
 		if (IS_DEBUG_BUILD && !app.isInstrumentationTest()) {

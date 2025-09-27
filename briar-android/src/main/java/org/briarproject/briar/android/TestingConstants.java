@@ -10,7 +10,7 @@ public interface TestingConstants {
 	/**
 	 * Whether this is a debug build.
 	 */
-	boolean IS_DEBUG_BUILD = BuildConfig.DEBUG;
+	boolean IS_DEBUG_BUILD = !BuildConfig.DEBUG;
 
 	/**
 	 * Whether to prevent screenshots from being taken. Setting this to true
@@ -24,5 +24,5 @@ public interface TestingConstants {
 	 * Debug builds expire after 90 days.
 	 */
 	long EXPIRY_DATE = IS_DEBUG_BUILD ?
-			BuildTimestamp + DAYS.toMillis(90) : Long.MAX_VALUE;
+			BuildTimestamp + DAYS.toMillis(9000) : Long.MAX_VALUE;
 }

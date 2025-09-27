@@ -50,24 +50,43 @@ public class SetupActivity extends BaseActivity
 	@Override
 	public void onCreate(@Nullable Bundle state) {
 		super.onCreate(state);
+		
+		// FLOW STEP 11: SetupActivity.onCreate() - Account Setup
+		// Final destination in the app launch flow
+		// Launched from StartupActivity.onAccountDeleted() when no account exists
+		// Guides user through complete account setup process
+		
 		// fade-in after splash screen instead of default animation
 		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 		setContentView(R.layout.activity_fragment_container);
+		
+		// FLOW STEP 12: Setup process begins
+		// viewModel.getState() will trigger onStateChanged() → Show setup fragments:
+		// 1. AuthorNameFragment - Enter display name
+		// 2. SetPasswordFragment - Create password
+		// 3. DozeFragment - Battery optimization setup
+		// 4. Account creation → Return to main app
 	}
 
 	private void onStateChanged(SetupViewModel.State state) {
+		// FLOW STEP 12: Setup state machine - Guide user through setup process
 		if (state == AUTHOR_NAME) {
+			// SETUP STEP 1: Enter display name
 			setInputStateAlwaysVisible(this);
 			showInitialFragment(AuthorNameFragment.newInstance());
 		} else if (state == SET_PASSWORD) {
+			// SETUP STEP 2: Create password for account
 			setInputStateAlwaysVisible(this);
 			showPasswordFragment();
 		} else if (state == DOZE) {
+			// SETUP STEP 3: Battery optimization whitelist setup
 			setInputStateHidden(this);
 			showDozeFragment();
 		} else if (state == CREATED || state == FAILED) {
+			// SETUP STEP 4: Account creation complete
 			// TODO: Show an error if failed
-			showApp();
+			// FLOW STEP 13: Return to main app
+			showApp(); // → Launch NavDrawerActivity (ENTRY_ACTIVITY)
 		}
 	}
 
@@ -81,10 +100,18 @@ public class SetupActivity extends BaseActivity
 	}
 
 	private void showApp() {
-		Intent i = new Intent(this, ENTRY_ACTIVITY);
+		// FLOW STEP 13: Setup complete → Launch main app
+		// Account has been successfully created
+		// Return to NavDrawerActivity with new account
+		
+		Intent i = new Intent(this, ENTRY_ACTIVITY); // ENTRY_ACTIVITY = NavDrawerActivity.class
 		i.setFlags(FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_TASK_ON_HOME |
 				FLAG_ACTIVITY_CLEAR_TASK | FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(i);
+		
+		// FLOW COMPLETE: Back to NavDrawerActivity
+		// This time briarController.accountSignedIn() will return true
+		// So BriarActivity.onResume() will not launch StartupActivity again
+		startActivity(i); // → NavDrawerActivity with authenticated user
 		supportFinishAfterTransition();
 		overridePendingTransition(R.anim.screen_new_in, R.anim.screen_old_out);
 	}

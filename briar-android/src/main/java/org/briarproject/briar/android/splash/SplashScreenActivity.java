@@ -49,22 +49,34 @@ public class SplashScreenActivity extends BaseActivity {
 	public void onCreate(@Nullable Bundle state) {
 		super.onCreate(state);
 
+		// FLOW STEP 1: App Launch - SplashScreenActivity
+		// This is the LAUNCHER activity defined in AndroidManifest.xml
+		// First activity that runs when user taps app icon
+		
 		getWindow().setExitTransition(new Fade());
 		setPreferencesDefaults();
 		setContentView(R.layout.splash);
 
+		// FLOW STEP 2: Check if user has existing account
 		if (accountManager.hasDatabaseKey()) {
-			startNextActivity(ENTRY_ACTIVITY);
+			// EXISTING USER: Has database key → Skip splash, go directly to main app
+			// FLOW STEP 3A: Launch NavDrawerActivity (ENTRY_ACTIVITY) immediately
+			startNextActivity(ENTRY_ACTIVITY); // ENTRY_ACTIVITY = NavDrawerActivity.class
 			finish();
 		} else {
+			// NEW USER OR RESET: No database key → Show splash screen
+			// FLOW STEP 3B: Show splash screen for specified duration
 			int duration =
 					getResources().getInteger(R.integer.splashScreenDuration);
 			new Handler().postDelayed(() -> {
 				if (IS_DEBUG_BUILD && currentTimeMillis() >= EXPIRY_DATE) {
+					// DEBUG BUILD EXPIRED: Show expiry screen
 					LOG.info("Expired");
 					startNextActivity(ExpiredActivity.class);
 				} else {
-					startNextActivity(ENTRY_ACTIVITY);
+					// NORMAL FLOW: Launch NavDrawerActivity after splash delay
+					// FLOW STEP 3C: Launch NavDrawerActivity (ENTRY_ACTIVITY)
+					startNextActivity(ENTRY_ACTIVITY); // → NavDrawerActivity.onCreate()
 				}
 				supportFinishAfterTransition();
 			}, duration);
@@ -72,9 +84,11 @@ public class SplashScreenActivity extends BaseActivity {
 	}
 
 	private void startNextActivity(Class<? extends Activity> activityClass) {
+		// FLOW HELPER: Launch next activity in the flow
+		// Usually launches NavDrawerActivity (ENTRY_ACTIVITY)
 		Intent i = new Intent(this, activityClass);
 		i.addFlags(FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(i);
+		startActivity(i); // → Next activity's onCreate()
 	}
 
 	private void setPreferencesDefaults() {

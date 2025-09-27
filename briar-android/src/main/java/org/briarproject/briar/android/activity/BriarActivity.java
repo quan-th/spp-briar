@@ -73,6 +73,8 @@ public abstract class BriarActivity extends BaseActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
+		// FLOW STEP 4: Activity lifecycle - onStart()
+		// Called after onCreate() and before onResume()
 		lockManager.onActivityStart();
 	}
 
@@ -80,17 +82,29 @@ public abstract class BriarActivity extends BaseActivity {
 	protected void onActivityResult(int request, int result,
 			@Nullable Intent data) {
 		super.onActivityResult(request, result, data);
+		
 		if (request == REQUEST_PASSWORD) {
+			// FLOW STEP 8: Return from StartupActivity
+			// This is called after StartupActivity completes
+			
 			// Recreate the activity so any DB tasks that failed before
 			// signing in can be retried
 			if (result == RESULT_OK) {
+				// SUCCESS: User successfully authenticated
+				// → Recreate NavDrawerActivity to refresh state
 				if (LOG.isLoggable(INFO)) {
 					LOG.info("Recreating " + getClass().getSimpleName()
 							+ " after signing in");
 				}
 				recreate();
+			} else {
+				// RESULT_CANCELED: Account was deleted in StartupActivity
+				// → SetupActivity was launched from StartupActivity.onAccountDeleted()
+				// → This activity will be recreated when SetupActivity completes
 			}
+			
 		} else if (request == REQUEST_UNLOCK && result != RESULT_OK) {
+			// UNLOCK FLOW: Return from UnlockActivity
 			// We arrive here, if the user presses 'back'
 			// in the Keyguard unlock screen, because UnlockActivity finishes.
 			// If we don't finish here, isFinishing will be false in onResume()
@@ -104,21 +118,40 @@ public abstract class BriarActivity extends BaseActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
+		
+		// FLOW STEP 5: NavDrawerActivity.onResume() - Authentication check
+		// This is called after NavDrawerActivity.onCreate() completes
 		if (!briarController.accountSignedIn() && !isFinishing()) {
+			// FLOW STEP 6: Account not signed in → Launch StartupActivity
+			// This happens when:
+			// - First time app launch (no account created yet)
+			// - User signed out
+			// - App restarted and needs re-authentication
+			
 			// Also check that the activity isn't finishing already.
 			// This is possible if we finished in onActivityResult().
 			// Launching another StartupActivity would cause a loop.
 			LOG.info("Not signed in, launching StartupActivity");
 			Intent i = new Intent(this, StartupActivity.class);
+			// FLOW STEP 7: StartupActivity launched for authentication
+			// → StartupActivity.onCreate() → Check account exists
+			// → If no account: onAccountDeleted() → SetupActivity
 			startActivityForResult(i, REQUEST_PASSWORD);
+			
 		} else if (lockManager.isLocked() && !isFinishing()) {
+			// ALTERNATIVE FLOW: App is locked → Launch UnlockActivity
+			// This happens when user has enabled app lock feature
+			
 			// Also check that the activity isn't finishing already.
 			// This is possible if we finished in onActivityResult().
 			// Launching another UnlockActivity would cause a loop.
 			LOG.info("Locked, launching UnlockActivity");
 			Intent i = new Intent(this, UnlockActivity.class);
 			startActivityForResult(i, REQUEST_UNLOCK);
+			
 		} else if (SDK_INT >= 23) {
+			// NORMAL FLOW: App is signed in and unlocked
+			// Check if device has been dozed (battery optimization)
 			briarController.hasDozed(new UiResultHandler<Boolean>(this) {
 				@Override
 				public void onResultUi(Boolean result) {

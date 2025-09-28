@@ -127,9 +127,10 @@ public class ContactListFragment extends BaseFragment
 			Intent intent =
 					new Intent(getContext(), AddNearbyContactActivity.class);
 			startActivity(intent);
-		} else if (itemId == R.id.action_add_contact_remotely) {
-			startActivity(new Intent(getContext(), AddContactActivity.class));
 		}
+//		else if (itemId == R.id.action_add_contact_remotely) {
+//			startActivity(new Intent(getContext(), AddContactActivity.class));
+//		}
 	}
 
 	@Override

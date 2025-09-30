@@ -23,6 +23,8 @@
 		<item name="android:textSize">@dimen/text_size_medium</item>
 		<item name="android:padding">@dimen/margin_large</item>
 		<item name="android:minHeight">@dimen/button_size</item>
+		<item name="android:backgroundTint">@android:color/white</item>
+		<item name="android:textColor">#2E5BBA</item>
 		<item name="cornerRadius">6dp</item>
 	</style>
 

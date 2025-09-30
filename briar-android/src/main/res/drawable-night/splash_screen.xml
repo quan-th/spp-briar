@@ -7,7 +7,7 @@
 
 	<!-- Bong bóng nền -->
 	<path
-		android:fillColor="#87c214"
+		android:fillColor="#FFFFFF"
 		android:pathData="M6,6 h36 a4,4 0 0 1 4,4 v22 a4,4 0 0 1 -4,4 h-20 l-8,6 v-6 h-8 a4,4 0 0 1 -4,-4 v-22 a4,4 0 0 1 4,-4z"/>
 
 	<!-- Nhóm icon sóng, căn giữa bong bóng -->
@@ -17,28 +17,28 @@
 
 		<!-- Cung lớn (bán kính 12, mở 60° lên trên) -->
 		<path
-			android:strokeColor="#FFFFFF"
+			android:strokeColor="#2E5BBA"
 			android:strokeWidth="2"
 			android:fillColor="@android:color/transparent"
 			android:pathData="M-10.4,-6 A12,12 0 0 1 10.4,-6"/>
 
 		<!-- Cung vừa (bán kính 8) -->
 		<path
-			android:strokeColor="#FFFFFF"
+			android:strokeColor="#2E5BBA"
 			android:strokeWidth="2"
 			android:fillColor="@android:color/transparent"
 			android:pathData="M-6.9,-4 A8,8 0 0 1 6.9,-4"/>
 
 		<!-- Cung nhỏ (bán kính 4) -->
 		<path
-			android:strokeColor="#FFFFFF"
+			android:strokeColor="#2E5BBA"
 			android:strokeWidth="2"
 			android:fillColor="@android:color/transparent"
 			android:pathData="M-3.5,-2 A4,4 0 0 1 3.5,-2"/>
 
 		<!-- Chấm trung tâm -->
 		<path
-			android:fillColor="#FFFFFF"
+			android:fillColor="#2E5BBA"
 			android:pathData="M2,0 A2,2 0 1,1 -2,0 A2,2 0 1,1 2,0"/>
 	</group>
 </vector>
